@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-apply from: 'config.gradle'
+//apply from: 'config.gradle'
 
 def getGitHash = { ->
     def stdout = new ByteArrayOutputStream()
@@ -14,19 +14,19 @@ def getGitHash = { ->
     return stdout.toString().trim()
 }
 
-def signingConfigFile = rootProject.file("signing.properties")
-def signingProperties = new Properties()
-signingProperties.load(new FileInputStream(signingConfigFile))
+//def signingConfigFile = rootProject.file("signing.properties")
+//def signingProperties = new Properties()
+//signingProperties.load(new FileInputStream(signingConfigFile))
 
 android {
-    signingConfigs {
-        release {
-            keyAlias signingProperties['keyAlias']
-            keyPassword signingProperties['keyPassword']
-            storeFile file(signingProperties['storeFile'])
-            storePassword signingProperties['storePassword']
-        }
-    }
+//    signingConfigs {
+//        release {
+//            keyAlias signingProperties['keyAlias']
+//            keyPassword signingProperties['keyPassword']
+//            storeFile file(signingProperties['storeFile'])
+//            storePassword signingProperties['storePassword']
+//        }
+//    }
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
     defaultConfig {
@@ -38,29 +38,41 @@ android {
         resConfigs "zh-rCN"
         versionNameSuffix '-' + getGitHash()
     }
+
+    viewBinding {
+        enabled = true
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
     buildTypes {
         release {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
+
+            manifestPlaceholders = [updateUrl: "========="]
         }
         debug {
             applicationIdSuffix ".debug"
+            manifestPlaceholders = [updateUrl: "========="]
         }
     }
     flavorDimensions 'update'
-    productFlavors {
-        normal {
-            dimension 'update'
-            manifestPlaceholders = [updateUrl: updateUrl]
-        }
-        noupdate {
-            dimension 'update'
-            versionNameSuffix '-pub'
-            manifestPlaceholders = [updateUrl: '']
-        }
-    }
+//    productFlavors {
+//        normal {
+//            dimension 'update'
+//            manifestPlaceholders = [updateUrl: updateUrl]
+//        }
+//        noupdate {
+//            dimension 'update'
+//            versionNameSuffix '-pub'
+//            manifestPlaceholders = [updateUrl: '']
+//        }
+//    }
     packagingOptions {
         pickFirst("META-INF/atomicfu.kotlin_module")
         exclude 'META-INF/CHANGES'
@@ -75,10 +87,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    buildFeatures {
-        dataBinding = true
-        viewBinding = true
-    }
+//    buildFeatures {
+//        dataBinding = true
+//        viewBinding = true
+//    }
+
 }
 
 androidExtensions {
