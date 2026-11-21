@@ -79,8 +79,8 @@ class BottomSheetMenu(
 
         menuItemView.text = item.title
 
-        val drawable = item.icon.mutate()
-        drawable.setBounds(0, 0, iconSize, iconSize)
+        val drawable = item.icon?.mutate()
+        drawable?.setBounds(0, 0, iconSize, iconSize)
         menuItemView.setCompoundDrawables(drawable, null, null, null)
 
         menuItemView.setOnClickListener {
@@ -117,7 +117,7 @@ class BottomSheetMenu(
         }
 
         fun setMenuItemIconTint(menuItem: MenuItem, @ColorInt tintColor: Int) {
-            val drawable = menuItem.icon.mutate()
+            val drawable = menuItem.icon?.mutate() ?: return
             DrawableCompat.setTint(drawable, tintColor)
             menuItem.icon = drawable
         }

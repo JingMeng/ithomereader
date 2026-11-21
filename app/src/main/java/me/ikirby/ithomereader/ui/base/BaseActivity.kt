@@ -37,7 +37,8 @@ open class BaseActivity : AppCompatActivity(), CoroutineScope {
 
         isGestureEnabled = BaseApplication.isGestureEnabled
         mGestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
-            override fun onFling(e1: MotionEvent, e2: MotionEvent, v: Float, v1: Float): Boolean {
+            override fun onFling(e1: MotionEvent?, e2: MotionEvent, v: Float, v1: Float): Boolean {
+                if (e1 == null) return false
                 if (abs(e1.rawY - e2.rawY) < 75) {
                     if (e1.rawX - e2.rawX > SWIPE_GESTURE_DISTANCE) {
                         return swipeLeft()
